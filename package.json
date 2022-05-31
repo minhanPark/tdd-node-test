@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "node server.js",
-    "test": "jest"
+    "test": "jest --runInBand --detectOpenHandles"
   },
   "author": "Runningwater",
   "license": "ISC",

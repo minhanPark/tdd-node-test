@@ -173,4 +173,17 @@ describe("Product Controller Delete", () => {
     expect(res._getJSONData()).toStrictEqual(deletedProduct);
     expect(res._isEndCalled()).toBeTruthy();
   });
+  it("should return 404 when item doesnt exist", async () => {
+    productModel.findByIdAndDelete.mockReturnValue(null);
+    await productController.deleteProduct(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+  it("should handle errors", async () => {
+    const errMsg = { message: "Error deleting" };
+    const rejectedPromise = Promise.reject(errMsg);
+    productModel.findByIdAndDelete.mockReturnValue(rejectedPromise);
+    await productController.deleteProduct(req, res, next);
+    expect(next).toHaveBeenCalledWith(errMsg);
+  });
 });
